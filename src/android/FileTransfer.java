@@ -704,36 +704,6 @@ public class FileTransfer extends CordovaPlugin {
         return arg;
     }
 
-   private static void disableSSLCertificateChecking() {
-        TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManager() {
-            public X509Certificate[] getAcceptedIssuers() {
-                return null;
-            }
-
-            @Override
-            public void checkClientTrusted(X509Certificate[] arg0, String arg1) throws CertificateException {
-                // Not implemented
-            }
-
-            @Override
-            public void checkServerTrusted(X509Certificate[] arg0, String arg1) throws CertificateException {
-                // Not implemented
-            }
-        } };
-
-        try {
-            SSLContext sc = SSLContext.getInstance("TLS");
-
-            sc.init(null, trustAllCerts, new java.security.SecureRandom());
-
-            HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
-        } catch (KeyManagementException e) {
-            e.printStackTrace();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-    }
-
     /**
      * Downloads a file form a given URL and saves it to the specified directory.
      *
@@ -743,9 +713,6 @@ public class FileTransfer extends CordovaPlugin {
     private void download(final String source, final String target, JSONArray args, CallbackContext callbackContext) throws JSONException {
         LOG.d(LOG_TAG, "download " + source + " to " +  target);
 
-        disableSSLCertificateChecking();
-
-        asdasdasdasdasdasdasdasdasdasd();
         final CordovaResourceApi resourceApi = webView.getResourceApi();
 
         final String objectId = args.getString(3);
@@ -826,8 +793,6 @@ public class FileTransfer extends CordovaPlugin {
 
                 OutputStream outputStream = null;
                 try {
-                    getHttpClientWithoutSslValidation_UsingHttpClient_4_5_2();
-
                     OpenForReadResult readResult = null;
 
                     file = resourceApi.mapUriToFile(targetUri);
